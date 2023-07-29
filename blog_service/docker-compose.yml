@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: "postgres:latest"
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blog
+    volumes:
+      - /var/lib/pgsql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+  node:
+    build: .
+    container_name: node
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+
+
