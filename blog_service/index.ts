@@ -14,7 +14,7 @@ const protoDescriptor = loadPackageDefinition(packageDefinition);
 
 // The protoDescriptor object has the full package hierarchy
 
-const BlogService = protoDescriptor.BlogService;
+const BlogService = protoDescriptor.blog;
 
 const server = new Server();
 
