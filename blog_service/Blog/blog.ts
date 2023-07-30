@@ -21,7 +21,7 @@ class Blog {
   //     this.name = name;
   // }
 
-  async create({
+  static async create({
     title,
     content,
     author_id,
@@ -34,15 +34,15 @@ class Blog {
   }) {
     return prisma.blog.create({
       data: {
-        title: title,
-        content: content,
-        author_id: author_id,
-        name: name,
+        title,
+        content,
+        author_id,
+        name,
       },
     });
   }
 
-  edit({
+  static edit({
     postId,
     title,
     content,
@@ -66,25 +66,27 @@ class Blog {
     });
   }
 
-  delete({ author_id, id }: { author_id: number; id: number }) {
+  static delete({ author_id, id }: { author_id: number; id: number }) {
     return prisma.blog.delete({
       where: { id, author_id },
     });
   }
 
-  list({ author_id, id }: { author_id: number; id: number }) {
+  static list({ author_id, id }: { author_id: number; id: number }) {
     return prisma.blog.findMany({
       where: { id, author_id },
     });
   }
 
-  get({ author_id, id }: { author_id: number; id: number }) {
+  static get({ author_id, id }: { author_id: number; id: number }) {
     return prisma.blog.findUnique({
       where: { id, author_id },
     });
   }
 
-  async listAll() {
+  static async listAll() {
     return prisma.blog.findMany();
   }
 }
+
+export default Blog;
