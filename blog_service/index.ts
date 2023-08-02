@@ -3,10 +3,13 @@ import {
   Server,
   loadPackageDefinition,
   ServerCredentials,
+  ServerUnaryCall,
+  sendUnaryData,
 } from "@grpc/grpc-js";
 import { loadSync } from "@grpc/proto-loader";
 import Blog from "./Blog/blog";
-import prisma from "./lib/prisma";
+import { BlogRequest, BlogResponse } from "./types/types";
+import { Status } from "@grpc/grpc-js/build/src/constants";
 
 const PROTO_PATH = path.join(__dirname, "/protos/blog.proto");
 
@@ -14,29 +17,26 @@ const packageDefinition = loadSync(PROTO_PATH);
 
 const protoDescriptor = loadPackageDefinition(packageDefinition);
 
-// async function main() {
-//   const res = await prisma.user.create({
-//     data: {
-//       id: 1,
-//       password: "123",
-//       email: "souhaibemanah@gmail.com",
-//       name: "khalid",
-//     },
-//   });
-//   console.log(res);
-// }
-// main();
-
-// The protoDescriptor object has the full package hierarchy
-
 const blogPackage: any = protoDescriptor.blog;
 const server = new Server();
 
-const CreateBlog = async (call: any, callback: any) => {
-  const { blog } = call.request;
-  await Blog.create(blog);
+const CreateBlog = async (
+  call: ServerUnaryCall<BlogRequest, BlogResponse>,
+  callback: sendUnaryData<BlogResponse>,
+) => {
+  let { blog } = call.request;
+
+  if (!blog || !blog.title || !blog.content || !blog.authorId || !blog.name) {
+    callback({
+      code: Status.INVALID_ARGUMENT,
+      message: "Missing required fields",
+    });
+    return;
+  }
+  const BlogResult = await Blog.create(blog);
+
   callback(null, {
-    blog,
+    blog: BlogResult,
   });
 };
 server.addService(blogPackage.BlogService.service, {
