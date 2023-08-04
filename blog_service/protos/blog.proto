@@ -1,29 +1,30 @@
+// this is an example for unary rpc communication
 syntax = "proto3";
 package blog;
 
 service BlogService {
-    rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {}
+  rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {}
   // you can add more rpc here for example ( sorry I don't have time to implement all of them)
-//    rpc ReadBlog(ReadBlogRequest) returns (ReadBlogResponse) {}
-//    rpc UpdateBlog(UpdateBlogRequest) returns (UpdateBlogResponse) {}
-//    rpc DeleteBlog(DeleteBlogRequest) returns (DeleteBlogResponse) {}
-//    rpc ListBlog(ListBlogRequest) returns (ListBlogResponse) {}
+  //    rpc ReadBlog(ReadBlogRequest) returns (ReadBlogResponse) {}
+  //    rpc UpdateBlog(UpdateBlogRequest) returns (UpdateBlogResponse) {}
+  //    rpc DeleteBlog(DeleteBlogRequest) returns (DeleteBlogResponse) {}
+  //    rpc ListBlog(ListBlogRequest) returns (ListBlogResponse) {}
 
 }
 
 message CreateBlogRequest {
-     Blog blog = 1;
+  Blog blog = 1;
 }
 
 message CreateBlogResponse {
-    Blog blog = 1;
+  Blog blog = 1;
 }
 
 message Blog {
-     int32 id = 1;
-     int32 author_id = 2;
-     string title = 3;
-     string content = 4;
-     string name = 5;
+  int32 id = 1;
+  int32 author_id = 2;
+  string title = 3;
+  string content = 4;
+  string name = 5;
 }
 

@@ -11,12 +11,13 @@ import Blog from "./Blog/blog";
 import { BlogRequest, BlogResponse } from "./types/types";
 import { Status } from "@grpc/grpc-js/build/src/constants";
 
+// define the path to the protofile
 const PROTO_PATH = path.join(__dirname, "/protos/blog.proto");
-
+// load the protofile
 const packageDefinition = loadSync(PROTO_PATH);
-
+// load in the service definition
 const protoDescriptor = loadPackageDefinition(packageDefinition);
-
+// extract the blog package
 const blogPackage: any = protoDescriptor.blog;
 const server = new Server();
 
